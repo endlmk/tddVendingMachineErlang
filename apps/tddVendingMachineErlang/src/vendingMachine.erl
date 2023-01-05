@@ -12,6 +12,14 @@ create(Amount) ->
             "Redbul" -> 200
         end
     end,
+    AmountOfCoin = fun(Coin) -> 
+        case Coin of
+            "10yen" -> 10;
+            "50yen" -> 50;
+            "100yen" -> 100;
+            "500yen" -> 500
+        end
+    end,
     fun(Message) ->
         case Message of
             ["buy", Drink]  ->
@@ -20,7 +28,7 @@ create(Amount) ->
                     Amount >= P -> {Drink, create(Amount - P)};
                     true -> {"", create(Amount)}
                 end;
-            ["insert", "100yen"] -> create(Amount + 100);
+            ["insert", Coin] -> create(Amount + AmountOfCoin(Coin));
             ["lightUp", Drink] -> Amount >= Price(Drink)
         end
     end.

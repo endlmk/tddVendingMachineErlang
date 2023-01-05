@@ -36,3 +36,14 @@ lightUp_test() ->
     VM3= VM2(["insert", "100yen"]),
     ?assertEqual(true, VM3(["lightUp", "Oolong"])),
     ?assertEqual(true, VM3(["lightUp", "Redbul"])).
+
+insertCoins_test() -> 
+    VM1 = vendingMachine:initMachine(),
+    VM2 = VM1(["insert", "10yen"]),
+    VM3 = VM2(["insert", "50yen"]),
+    VM4 = VM3(["insert", "50yen"]),
+    {Drink1, VM5} = VM4(["buy", "Oolong"]),
+    ?assertEqual("Oolong", Drink1),
+    VM6 = VM5(["insert", "500yen"]),
+    ?assertEqual(true, VM6(["lightUp", "Redbul"])).
+
