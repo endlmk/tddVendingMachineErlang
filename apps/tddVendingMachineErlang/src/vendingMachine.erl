@@ -25,8 +25,8 @@ create(Amount) ->
             ["buy", Drink]  ->
                 P = Price(Drink),
                 if 
-                    Amount >= P -> {Drink, create(Amount - P)};
-                    true -> {"", create(Amount)}
+                    Amount >= P -> {Drink, Amount - P, create(0)};
+                    true -> {"", 0, create(Amount)}
                 end;
             ["insert", Coin] -> create(Amount + AmountOfCoin(Coin));
             ["lightUp", Drink] -> Amount >= Price(Drink)

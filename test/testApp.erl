@@ -3,28 +3,32 @@
 
 insertCoin_test() ->
     VM = vendingMachine:initMachine(),
-    {Drink1, VM1} = VM(["buy", "Coke"]),
+    {Drink1, Return1, VM1} = VM(["buy", "Coke"]),
     ?assertEqual("", Drink1),
+    ?assertEqual(0, Return1),
     VM2 = VM1(["insert", "100yen"]),
-    {Drink2, VM3} = VM2(["buy", "Coke"]), 
+    {Drink2, Return2, VM3} = VM2(["buy", "Coke"]), 
     ?assertEqual("Coke", Drink2),
-    {Drink3, _} = VM3(["buy", "Coke"]), 
-    ?assertEqual("", Drink3).
+    ?assertEqual(0, Return2),
+    {Drink3, Return3, _} = VM3(["buy", "Coke"]), 
+    ?assertEqual("", Drink3),
+    ?assertEqual(0, Return3).
 
 buyOolong_test() ->
     VM1 = vendingMachine:initMachine(),
     VM2 = VM1(["insert", "100yen"]),
-    {Drink1, _} = VM2(["buy", "Oolong"]),
+    {Drink1, _, _} = VM2(["buy", "Oolong"]),
     ?assertEqual("Oolong", Drink1).
 
 buyRedbul_test() ->
     VM1 = vendingMachine:initMachine(),
     VM2 = VM1(["insert", "100yen"]),
-    {Drink1, VM3} = VM2(["buy", "Redbul"]),
+    {Drink1, _, VM3} = VM2(["buy", "Redbul"]),
     ?assertEqual("", Drink1),
     VM4 = VM3(["insert", "100yen"]),
-    {Drink2, _} = VM4(["buy", "Redbul"]),
-    ?assertEqual("Redbul", Drink2).
+    {Drink2, Return2, _} = VM4(["buy", "Redbul"]),
+    ?assertEqual("Redbul", Drink2),
+    ?assertEqual(0, Return2).
 
 lightUp_test() ->
     VM1 = vendingMachine:initMachine(),
@@ -42,8 +46,11 @@ insertCoins_test() ->
     VM2 = VM1(["insert", "10yen"]),
     VM3 = VM2(["insert", "50yen"]),
     VM4 = VM3(["insert", "50yen"]),
-    {Drink1, VM5} = VM4(["buy", "Oolong"]),
+    {Drink1, Return1, VM5} = VM4(["buy", "Oolong"]),
     ?assertEqual("Oolong", Drink1),
+    ?assertEqual(10, Return1),
     VM6 = VM5(["insert", "500yen"]),
-    ?assertEqual(true, VM6(["lightUp", "Redbul"])).
-
+    ?assertEqual(true, VM6(["lightUp", "Redbul"])),
+    {Drink2, Return2, _} = VM6(["buy", "Redbul"]),
+    ?assertEqual("Redbul", Drink2),
+    ?assertEqual(300, Return2).
