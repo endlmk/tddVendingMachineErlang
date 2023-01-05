@@ -29,6 +29,7 @@ create(Amount) ->
                     true -> {"", 0, create(Amount)}
                 end;
             ["insert", Coin] -> create(Amount + AmountOfCoin(Coin));
-            ["lightUp", Drink] -> Amount >= Price(Drink)
+            ["lightUp", Drink] -> Amount >= Price(Drink);
+            ["return"] -> {Amount, create(0)}
         end
     end.

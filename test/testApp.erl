@@ -54,3 +54,14 @@ insertCoins_test() ->
     {Drink2, Change2, _} = VM6(["buy", "Redbul"]),
     ?assertEqual("Redbul", Drink2),
     ?assertEqual(300, Change2).
+
+return_test() ->
+    VM1 = vendingMachine:initMachine(),
+    VM2 = VM1(["insert", "10yen"]),
+    VM3 = VM2(["insert", "50yen"]),
+    VM4 = VM3(["insert", "500yen"]),
+    {Return, VM5} = VM4(["return"]),
+    ?assertEqual(560, Return),
+    ?assertEqual(false, VM5(["lightUp", "Oolong"])),
+    {Return1, _} = VM5(["return"]),
+    ?assertEqual(0, Return1).
