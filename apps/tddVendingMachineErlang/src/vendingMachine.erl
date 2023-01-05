@@ -11,8 +11,8 @@ create(Amount) ->
         case Message of
             "buy" -> 
                 if 
-                    Amount >= 100 -> "coke";
-                    true -> ""
+                    Amount >= 100 -> {"coke", create(Amount - 100)};
+                    true -> {"", create(Amount)}
                 end;
             "insert100yen" -> create(Amount + 100)
         end
