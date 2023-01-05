@@ -26,3 +26,13 @@ buyRedbul_test() ->
     {Drink2, _} = VM4(["buy", "Redbul"]),
     ?assertEqual("Redbul", Drink2).
 
+lightUp_test() ->
+    VM1 = vendingMachine:initMachine(),
+    ?assertEqual(false, VM1(["lightUp", "Coke"])),
+    ?assertEqual(false, VM1(["lightUp", "Redbul"])),
+    VM2 = VM1(["insert", "100yen"]),
+    ?assertEqual(true, VM2(["lightUp", "Coke"])),
+    ?assertEqual(false, VM2(["lightUp", "Redbul"])),
+    VM3= VM2(["insert", "100yen"]),
+    ?assertEqual(true, VM3(["lightUp", "Oolong"])),
+    ?assertEqual(true, VM3(["lightUp", "Redbul"])).

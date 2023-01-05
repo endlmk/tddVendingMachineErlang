@@ -20,6 +20,7 @@ create(Amount) ->
                     Amount >= P -> {Drink, create(Amount - P)};
                     true -> {"", create(Amount)}
                 end;
-            ["insert", "100yen"] -> create(Amount + 100)
+            ["insert", "100yen"] -> create(Amount + 100);
+            ["lightUp", Drink] -> Amount >= Price(Drink)
         end
     end.
