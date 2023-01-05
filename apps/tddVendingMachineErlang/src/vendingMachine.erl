@@ -5,19 +5,20 @@
 initMachine() -> create(0).
 
 create(Amount) -> 
+    Price = fun(Drink) ->
+        case Drink of
+            "Coke" -> 100;
+            "Oolong" -> 100;
+            "Redbul" -> 200
+        end
+    end,
     fun(Message) ->
         case Message of
             ["buy", Drink]  ->
-                case Drink of
-                    "Coke" -> if Amount >= 100 -> {Drink, create(Amount - 100)};
-                                 true -> {"", create(Amount)}
-                              end;
-                    "Oolong" -> if Amount >= 100 -> {Drink, create(Amount - 100)};
-                                   true -> {"", create(Amount)}
-                                end;    
-                    "Redbul" -> if Amount >= 200 -> {Drink, create(Amount - 200)};
-                                    true -> {"", create(Amount)}
-                                end
+                P = Price(Drink),
+                if 
+                    Amount >= P -> {Drink, create(Amount - P)};
+                    true -> {"", create(Amount)}
                 end;
             ["insert", "100yen"] -> create(Amount + 100)
         end
